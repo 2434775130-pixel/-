@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>中文家庭成员学习交互图</title>
+    <style>
+        body { font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif; background-color: #f0f4f8; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .container { width: 900px; background: white; padding: 20px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center; }
+        h1 { color: #4a7c59; margin-bottom: 20px; }
+        
+        /* SVG 样式 */
+        .family-member { cursor: pointer; transition: transform 0.2s; }
+        .family-member:hover { transform: scale(1.02); }
+        .label-box { fill: #fff; stroke-width: 2; transition: all 0.3s; }
+        .family-member:hover .label-box { filter: brightness(0.9); }
+        
+        /* 颜色分类 */
+        .color-parents { stroke: #ffadad; fill: #fff5f5; }
+        .color-grand { stroke: #a0c4ff; fill: #f0f7ff; }
+        .color-siblings { stroke: #9bf6ff; fill: #f0ffff; }
+        
+        text { pointer-events: none; }
+        .pinyin { font-size: 14px; fill: #666; }
+        .hanzi { font-size: 22px; font-weight: bold; fill: #333; }
+        .english { font-size: 12px; fill: #888; font-style: italic; }
+        
+        .tip { margin-top: 15px; color: #666; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>练习 Liànxí - Family Members</h1>
+    
+    <svg viewBox="0 0 800 500" width="100%">
+        <g stroke="#ddd" stroke-dasharray="5,5">
+            <line x1="400" y1="250" x2="150" y2="100" />
+            <line x1="400" y1="250" x2="400" y2="80" />
+            <line x1="400" y1="250" x2="650" y2="100" />
+            <line x1="400" y1="250" x2="150" y2="350" />
+            <line x1="400" y1="250" x2="400" y2="420" />
+            <line x1="400" y1="250" x2="650" y2="350" />
+        </g>
+
+        <g class="family-member" onclick="speak('姐姐', 'jiějie')">
+            <rect x="50" y="50" width="180" height="80" rx="10" class="label-box color-siblings" />
+            <text x="140" y="75" text-anchor="middle" class="pinyin">jiějie</text>
+            <text x="140" y="105" text-anchor="middle" class="hanzi">姐姐</text>
+            <text x="140" y="122" text-anchor="middle" class="english">n. elder sister</text>
+        </g>
+
+        <g class="family-member" onclick="speak('爸爸', 'bàba')">
+            <rect x="310" y="30" width="180" height="80" rx="10" class="label-box color-parents" />
+            <text x="400" y="55" text-anchor="middle" class="pinyin">bàba</text>
+            <text x="400" y="85" text-anchor="middle" class="hanzi">爸爸</text>
+            <text x="400" y="102" text-anchor="middle" class="english">n. father, dad</text>
+        </g>
+
+        <g class="family-member" onclick="speak('妈妈', 'māma')">
+            <rect x="570" y="50" width="180" height="80" rx="10" class="label-box color-parents" />
+            <text x="660" y="75" text-anchor="middle" class="pinyin">māma</text>
+            <text x="660" y="105" text-anchor="middle" class="hanzi">妈妈</text>
+            <text x="660" y="122" text-anchor="middle" class="english">n. mother, mum</text>
+        </g>
+
+        <g class="family-member" onclick="speak('奶奶', 'nǎinai')">
+            <rect x="20" y="320" width="200" height="80" rx="10" class="label-box color-grand" />
+            <text x="120" y="345" text-anchor="middle" class="pinyin">nǎinai</text>
+            <text x="120" y="375" text-anchor="middle" class="hanzi">奶奶</text>
+            <text x="120" y="392" text-anchor="middle" class="english">n. grandma (paternal)</text>
+        </g>
+
+        <g class="family-member" onclick="speak('弟弟', 'dìdi')">
+            <rect x="310" y="400" width="180" height="80" rx="10" class="label-box color-siblings" />
+            <text x="400" y="425" text-anchor="middle" class="pinyin">dìdi</text>
+            <text x="400" y="455" text-anchor="middle" class="hanzi">弟弟</text>
+            <text x="400" y="472" text-anchor="middle" class="english">n. younger brother</text>
+        </g>
+
+        <g class="family-member" onclick="speak('爷爷', 'yéye')">
+            <rect x="580" y="320" width="200" height="80" rx="10" class="label-box color-grand" />
+            <text x="680" y="345" text-anchor="middle" class="pinyin">yéye</text>
+            <text x="680" y="375" text-anchor="middle" class="hanzi">爷爷</text>
+            <text x="680" y="392" text-anchor="middle" class="english">n. grandpa (paternal)</text>
+        </g>
+
+        <circle cx="400" cy="250" r="50" fill="#eee" />
+        <text x="400" y="255" text-anchor="middle" style="font-size: 14px; fill: #999;">Family<br/>Image</text>
+    </svg>
+
+    <p class="tip">💡 点击上方卡片听发音 (Click cards to hear pronunciation)</p>
+</div>
+
+<script>
+    function speak(text, pinyin) {
+        // 使用 Web Speech API
+        const msg = new SpeechSynthesisUtterance();
+        msg.text = text;
+        msg.lang = 'zh-CN';
+        msg.rate = 0.8; // 稍微放慢语速方便学习
+        window.speechSynthesis.cancel(); // 停止当前正在播放的
+        window.speechSynthesis.speak(msg);
+        
+        console.log("Playing pronunciation for: " + pinyin);
+    }
+</script>
+
+</body>
+</html>
